@@ -25,11 +25,11 @@ namespace backend.Controllers{
         }
        
        [HttpGet] //tells ASP.NET Core this method handles GET requests to /api/blogposts.
-       public ActionResult<IEnumerable<BlogPostDto>> GetAll()
+       public async Task<ActionResult<IEnumerable<BlogPostDto>>> GetAll()
        //ActionResult<IEnumerable<BlogPostDto>> is the return type. 
        // IEnumerable<BlogPostDto> means a list of BlogPostDto objects. ActionResult wraps it so you can also return HTTP status codes like 200 or 404.
         {
-            var posts = _context.BlogPosts.ToList();
+            var posts = await _context.BlogPosts.ToListAsync();
 
             var result = posts.Select(p => new BlogPostDto
             {
@@ -48,7 +48,7 @@ namespace backend.Controllers{
 
 
         [HttpPost]
-        public ActionResult<BlogPostDto> Create(CreateBlogPostDto dto){
+        public async Task<ActionResult<BlogPostDto>> Create(CreateBlogPostDto dto){
             //CreateBlogPostDto dto — ASP.NET Core reads the JSON body of the request and maps it to this object automatically.
             var post = new BlogPost
             {
@@ -58,7 +58,7 @@ namespace backend.Controllers{
             };
 
             _context.BlogPosts.Add(post);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             var result = new BlogPostDto
             {
@@ -76,9 +76,9 @@ namespace backend.Controllers{
 
 
         [HttpGet("{id}")]
-        public IActionResult GetBlogPost(int id)
+        public async Task<ActionResult<BlogPostDto>> GetBlogPost(int id)
         {
-            var post = _context.BlogPosts.Find(id);
+            var post = await _context.BlogPosts.FindAsync(id);
 
             if(post == null)
             {
@@ -99,9 +99,9 @@ namespace backend.Controllers{
         
 
         [HttpPut("{id}")]
-        public ActionResult<BlogPostDto> UpdateBlogPost(int id, UpdateBlogPostDto dto)
+        public async Task<ActionResult<BlogPostDto>> UpdateBlogPost(int id, UpdateBlogPostDto dto)
         {
-            var existing = _context.BlogPosts.Find(id);
+            var existing = await _context.BlogPosts.FindAsync(id);
             if(existing == null)
             {
                 return NotFound();
@@ -111,15 +111,15 @@ namespace backend.Controllers{
             existing.Content = dto.Content;
             existing.Slug = dto.Slug;
 
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
         [HttpDelete("{id}")]
-        public ActionResult DeleteBlogPost(int id)
+        public async Task<ActionResult> DeleteBlogPost(int id)
         {
-            var existing = _context.BlogPosts.Find(id);
+            var existing = await _context.BlogPosts.FindAsync(id);
 
             if(existing == null)
             {
@@ -127,7 +127,7 @@ namespace backend.Controllers{
             }
 
             _context.BlogPosts.Remove(existing);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return NoContent();
         }
