@@ -10,7 +10,6 @@ namespace backend.Controllers{
     //any request that comes in to the URL /api/blogposts should be handled by this controller.
     [Route("api/blogposts")]
 
-
     public class BlogPostsController:ControllerBase{
         //is a base class provided by ASP.NET Core. 
         // It gives you helper methods like Ok(), NotFound(), BadRequest() — you will use these to return responses.
@@ -74,7 +73,65 @@ namespace backend.Controllers{
             //CreatedAtAction returns HTTP 201 — which means "resource created successfully". This is more correct than Ok() for a POST.
 
         }
+
+
+        [HttpGet("{id}")]
+        public IActionResult GetBlogPost(int id)
+        {
+            var post = _context.BlogPosts.Find(id);
+
+            if(post == null)
+            {
+                return NotFound();
+            }
+
+            var result = new BlogPostDto
+            {
+                Id = post.Id,
+                Title = post.Title,
+                Slug = post.Slug,
+                Content = post.Content,
+                CreatedAt = post.CreatedAt
+            };
+
+            return Ok(result);
+        }
         
+
+        [HttpPut("{id}")]
+        public ActionResult<BlogPostDto> UpdateBlogPost(int id, UpdateBlogPostDto dto)
+        {
+            var existing = _context.BlogPosts.Find(id);
+            if(existing == null)
+            {
+                return NotFound();
+            }
+
+            existing.Title = dto.Title;
+            existing.Content = dto.Content;
+            existing.Slug = dto.Slug;
+
+            _context.SaveChanges();
+
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public ActionResult DeleteBlogPost(int id)
+        {
+            var existing = _context.BlogPosts.Find(id);
+
+            if(existing == null)
+            {
+                return NotFound();
+            }
+
+            _context.BlogPosts.Remove(existing);
+            _context.SaveChanges();
+
+            return NoContent();
+        }
+
     }
     
 }
