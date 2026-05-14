@@ -20,4 +20,8 @@ public class BlogPost
 
     // Precise timestamp for when it was created
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
+
+    public List<Category> Categories {get; set;} = [];
+
 }
