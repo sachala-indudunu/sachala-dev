@@ -19,4 +19,7 @@ public class BlogPostDto
 
     // Precise timestamp for when it was created
     public DateTime CreatedAt { get; set; } 
+
+    public required List<CategoryDto> Categories{get; set;} = [];
+
 }

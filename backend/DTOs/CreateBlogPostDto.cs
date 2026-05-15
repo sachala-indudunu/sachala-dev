@@ -13,6 +13,8 @@ public class CreateBlogPostDto
     // Usually indexed in the database for fast lookups
     public required string Slug { get; set; } = string.Empty;
 
+    public List<int> CategoryIds { get; set; } = [];
+
     // Use 'string' for long-form text (mapped to TEXT or NVARHCAR(MAX))
     public required string Content { get; set; } = string.Empty;
 

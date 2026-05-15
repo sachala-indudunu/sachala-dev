@@ -1,0 +1,10 @@
+using Microsoft.EntityFrameworkCore.Storage;
+
+namespace backend.DTOs;
+
+public class CategoryDto{
+    
+    public int Id {get; set;}
+    public string Name {get; set;} = string.Empty;
+
+}

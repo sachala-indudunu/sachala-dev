@@ -3,6 +3,7 @@ using backend.DTOs;
 using backend.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Migrations.Operations;
 
 namespace backend.Controllers{
     
@@ -30,7 +31,7 @@ namespace backend.Controllers{
        //ActionResult<IEnumerable<BlogPostDto>> is the return type. 
        // IEnumerable<BlogPostDto> means a list of BlogPostDto objects. ActionResult wraps it so you can also return HTTP status codes like 200 or 404.
         {
-            var posts = await _context.BlogPosts.ToListAsync();
+            var posts = await _context.BlogPosts.Include(b => b.Categories).ToListAsync();
 
             var result = posts.Select(p => new BlogPostDto
             {
@@ -38,7 +39,13 @@ namespace backend.Controllers{
                 Title = p.Title,
                 Slug = p.Slug,
                 Content = p.Content,
-                CreatedAt = p.CreatedAt
+                CreatedAt = p.CreatedAt,
+                Categories = p.Categories.Select(c => new CategoryDto
+                {
+                    Id = c.Id,
+                    Name = c.Name
+                }).ToList()
+                
             });
             //The Select maps each BlogPost database model to a BlogPostDto. 
             // This is the manual mapping — you are explicitly choosing what fields go into the response. 
@@ -61,13 +68,28 @@ namespace backend.Controllers{
             _context.BlogPosts.Add(post);
             await _context.SaveChangesAsync();
 
+
+            var categories = await _context.Categories
+                .Where(c => dto.CategoryIds.Contains(c.Id))
+                .ToListAsync();
+
+            post.Categories =  categories;
+
+            await _context.SaveChangesAsync();
+
+
             var result = new BlogPostDto
             {
                 Id = post.Id,
                 Title = post.Title,
                 Slug = post.Slug,
                 Content = post.Content,
-                CreatedAt = post.CreatedAt
+                CreatedAt = post.CreatedAt,
+                Categories = post.Categories.Select(c => new CategoryDto
+                {
+                    Id = c.Id,
+                    Name = c.Name
+                }).ToList()
             };
 
             return CreatedAtAction(nameof(GetAll), result);
@@ -79,7 +101,7 @@ namespace backend.Controllers{
         [HttpGet("{id}")]
         public async Task<ActionResult<BlogPostDto>> GetBlogPost(int id)
         {
-            var post = await _context.BlogPosts.FindAsync(id);
+            var post = await _context.BlogPosts.Include(b => b.Categories).FirstOrDefaultAsync(b => b.Id == id);
 
             if(post == null)
             {
@@ -92,7 +114,12 @@ namespace backend.Controllers{
                 Title = post.Title,
                 Slug = post.Slug,
                 Content = post.Content,
-                CreatedAt = post.CreatedAt
+                CreatedAt = post.CreatedAt,
+                Categories = post.Categories.Select(c => new CategoryDto
+                {
+                    Id = c.Id,
+                    Name = c.Name
+                }).ToList()
             };
 
             return Ok(result);
@@ -102,7 +129,10 @@ namespace backend.Controllers{
         [HttpPut("{id}")]
         public async Task<ActionResult<BlogPostDto>> UpdateBlogPost(int id, UpdateBlogPostDto dto)
         {
-            var existing = await _context.BlogPosts.FindAsync(id);
+            var existing = await _context.BlogPosts
+                .Include(p => p.Categories)
+                .FirstOrDefaultAsync(p => p.Id == id);
+
             if(existing == null)
             {
                 return NotFound();
@@ -111,6 +141,12 @@ namespace backend.Controllers{
             existing.Title = dto.Title;
             existing.Content = dto.Content;
             existing.Slug = dto.Slug;
+
+            var categories = await _context.Categories
+                .Where(c => dto.CategoryIds.Contains(c.Id))
+                .ToListAsync();
+
+            existing.Categories = categories;
 
             await _context.SaveChangesAsync();
 

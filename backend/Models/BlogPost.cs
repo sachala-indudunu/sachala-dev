@@ -1,6 +1,8 @@
 //  your database model. A blog post should have an Id, Title, Content, CreatedAt, and Slug. 
 // Think about the right C# data types for each.
 
+using backend.DTOs;
+
 namespace backend.Models;
 
 public class BlogPost
@@ -20,7 +22,6 @@ public class BlogPost
 
     // Precise timestamp for when it was created
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-
 
     public List<Category> Categories {get; set;} = [];
 
