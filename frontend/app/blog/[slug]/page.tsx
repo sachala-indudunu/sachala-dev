@@ -1,26 +1,7 @@
 import ReactMarkdown from "react-markdown";
 import Link from "next/link";
-
-interface Category {
-  id: number;
-  name: string;
-}
-
-interface BlogPost {
-  id: number;
-  title: string;
-  slug: string;
-  content: string;
-  createdAt: string;
-  categories: Category[];
-}
-
-async function getBlogPost(slug: string): Promise<BlogPost | null> {
-  const response = await fetch("http://localhost:5230/api/blogposts");
-  const posts: BlogPost[] = await response.json();
-  const post = posts.find((p) => p.slug === slug);
-  return post ?? null;
-}
+import { getBlogPost } from "@/lib/api";
+import { Category, BlogPost } from "@/lib/types";
 
 interface PageProps {
   params: Promise<{ slug: string }>;

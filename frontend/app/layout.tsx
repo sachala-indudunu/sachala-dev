@@ -56,15 +56,17 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistMono.variable} min-h-full flex flex-col bg-black text-white font-mono`}>
-        
-        <nav className="flex items-center justify-between px-12 py-5 border-b border-zinc-800">
-          <Link href="/" className="text-white font-bold tracking-tight">
-            <span className="text-blue-400">&gt;</span> sachala.dev
-          </Link>
-          <div className="flex gap-8 text-sm text-zinc-400">
-            <Link href="/" className="hover:text-white transition-colors">home</Link>
-            <Link href="/blog" className="hover:text-white transition-colors">blog</Link>
-            <Link href="/contact" className="hover:text-white transition-colors">contact</Link>
+
+        <nav className="border-b border-zinc-800">
+          <div className="max-w-5xl mx-auto px-12 py-5 flex items-center justify-between">
+            <Link href="/" className="text-white font-bold tracking-tight">
+              <span className="text-blue-400">&gt;</span> sachala.dev
+            </Link>
+            <div className="flex gap-8 text-sm text-zinc-400">
+              <Link href="/" className="hover:text-white transition-colors">home</Link>
+              <Link href="/blog" className="hover:text-white transition-colors">blog</Link>
+              <Link href="/contact" className="hover:text-white transition-colors">contact</Link>
+            </div>
           </div>
         </nav>
 
@@ -72,12 +74,14 @@ export default function RootLayout({
           {children}
         </main>
 
-        <footer className="border-t border-zinc-800 px-12 py-5 flex justify-between items-center text-xs text-zinc-600">
-          <span>$ echo "built with caffeine & curiosity"</span>
-          <div className="flex gap-6">
-            <a href="https://linkedin.com/in/sachala-indudunu" target="_blank" className="hover:text-white transition-colors">linkedin</a>
-            <a href="https://github.com/sachala-indudunu" target="_blank" className="hover:text-white transition-colors">github</a>
-            <span>© 2026</span>
+        <footer className="border-t border-zinc-800">
+          <div className="max-w-5xl mx-auto px-12 py-5 flex justify-between items-center text-xs text-zinc-600">
+            <span>$ echo "built with caffeine & curiosity"</span>
+            <div className="flex gap-6">
+              <a href="https://linkedin.com/in/sachala-indudunu" target="_blank" className="hover:text-white transition-colors">linkedin</a>
+              <a href="https://github.com/sachala-indudunu" target="_blank" className="hover:text-white transition-colors">github</a>
+              <span>© 2026</span>
+            </div>
           </div>
         </footer>
 
