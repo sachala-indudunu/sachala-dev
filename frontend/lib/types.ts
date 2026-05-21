@@ -9,5 +9,6 @@ export interface BlogPost {
   slug: string;
   content: string;
   createdAt: string;
+  thumbnailUrl?: string;
   categories: Category[];
 }

@@ -24,14 +24,24 @@ export default function BlogPostCard({ post }: Props) {
     >
 
       {/* Card image area */}
-      <div className="bg-zinc-900 h-40 flex items-center justify-center">
-        <div className="flex gap-2">
-          {post.categories.map((c) => (
-            <span key={c.id} className="text-xs border border-zinc-700 px-2 py-1 text-zinc-400">
-              {c.name.toUpperCase()}
-            </span>
-          ))}
-        </div>
+      <div className="bg-zinc-900 h-40 overflow-hidden">
+        {post.thumbnailUrl ? (
+          <img
+            src={post.thumbnailUrl}
+            alt={post.title}
+            className="w-full h-full object-cover opacity-80"
+          />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center">
+            <div className="flex gap-2">
+              {post.categories.map((c) => (
+                <span key={c.id} className="text-xs border border-zinc-700 px-2 py-1 text-zinc-400">
+                  {c.name.toUpperCase()}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Card content */}

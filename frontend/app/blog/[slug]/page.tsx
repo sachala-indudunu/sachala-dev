@@ -47,6 +47,16 @@ export default async function BlogPostPage({ params }: PageProps) {
 
       <hr className="border-zinc-800 mb-12" />
 
+      {post.thumbnailUrl && (
+        <div className="mb-12 overflow-hidden">
+          <img
+            src={post.thumbnailUrl}
+            alt={post.title}
+            className="w-full object-cover"
+          />
+        </div>
+      )}
+
       {/* Post content */}
       <article className="prose prose-invert prose-pre:bg-zinc-900 max-w-none
         prose-headings:font-bold prose-headings:text-white
