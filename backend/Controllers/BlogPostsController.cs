@@ -40,6 +40,7 @@ namespace backend.Controllers{
                 Slug = p.Slug,
                 Content = p.Content,
                 CreatedAt = p.CreatedAt,
+                ThumbnailUrl = p.ThumbnailUrl,
                 Categories = p.Categories.Select(c => new CategoryDto
                 {
                     Id = c.Id,
@@ -62,7 +63,8 @@ namespace backend.Controllers{
             {
                 Title = dto.Title,
                 Slug = dto.Slug,
-                Content = dto.Content
+                Content = dto.Content,
+                ThumbnailUrl = dto.ThumbnailUrl
             };
 
             _context.BlogPosts.Add(post);
@@ -85,6 +87,7 @@ namespace backend.Controllers{
                 Slug = post.Slug,
                 Content = post.Content,
                 CreatedAt = post.CreatedAt,
+                ThumbnailUrl = post.ThumbnailUrl,
                 Categories = post.Categories.Select(c => new CategoryDto
                 {
                     Id = c.Id,
@@ -115,6 +118,7 @@ namespace backend.Controllers{
                 Slug = post.Slug,
                 Content = post.Content,
                 CreatedAt = post.CreatedAt,
+                ThumbnailUrl = post.ThumbnailUrl,
                 Categories = post.Categories.Select(c => new CategoryDto
                 {
                     Id = c.Id,
@@ -141,6 +145,7 @@ namespace backend.Controllers{
             existing.Title = dto.Title;
             existing.Content = dto.Content;
             existing.Slug = dto.Slug;
+            existing.ThumbnailUrl = dto.ThumbnailUrl;
 
             var categories = await _context.Categories
                 .Where(c => dto.CategoryIds.Contains(c.Id))

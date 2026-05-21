@@ -15,4 +15,6 @@ public class UpdateBlogPostDto
     // Use 'string' for long-form text (mapped to TEXT or NVARHCAR(MAX))
     public required string Content { get; set; } = string.Empty;
 
+    public string? ThumbnailUrl { get; set; }
+
 }

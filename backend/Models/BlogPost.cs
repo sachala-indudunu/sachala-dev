@@ -25,4 +25,6 @@ public class BlogPost
 
     public List<Category> Categories {get; set;} = [];
 
+    public string? ThumbnailUrl { get; set; }
+
 }

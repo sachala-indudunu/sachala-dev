@@ -22,4 +22,6 @@ public class BlogPostDto
 
     public required List<CategoryDto> Categories{get; set;} = [];
 
+    public string? ThumbnailUrl { get; set; }
+
 }
